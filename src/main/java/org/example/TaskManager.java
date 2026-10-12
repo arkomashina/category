@@ -12,20 +12,32 @@ public class TaskManager {
     private int nextId = 1;
 
     public void addTask(String title, String description) {
+
+        if (title == null || title.isBlank()) {
+            throw new InvalidTaskException("Название задачи не может быть пустым");
+        }
+
         Task task = new Task(nextId, title, description, false);
         tasks.put(task.getId(), task);
         nextId++;
     }
 
-    public void deleteTask(Task task) {
-        tasks.remove(task.getId());
+    public void removeTask(int id) {
+        findTaskById(id);
+        tasks.remove(id);
     }
 
-    public Task findTaskById(Task task) {
-        return tasks.get(task.getId());
+    public Task findTaskById(int id) throws TaskNotFoundException {
+        Task task = tasks.get(id);
+        if (task == null) {
+            throw new TaskNotFoundException("Задача с id=" + id + " не найдена");
+        }
+        return task;
     }
 
-    public void completeTask(Task task) {
+    public void completeTask(int id) {
+        Task task = tasks.get(id);
+        findTaskById(id);
         task.setCompleted(true);
     }
 
@@ -43,15 +55,11 @@ public class TaskManager {
 
     }
 
+    public void addCategory(String title) {
+        category.add(title);
+    }
 
-
-    //1. Добавить задачу
-//2. Удалить задачу
-//3. Найти задачу по ID
-//4. Завершить задачу
-//5. Показать все задачи
-//6. Показать выполненные задачи
-//7. Добавить категорию
-//8. Показать категории
-//0. Выход
+    public Set<String> showCategory(Set<String> titles) {
+        return category;
+    }
 }
