@@ -38,8 +38,7 @@ public class TaskManager {
     }
 
     public void completeTask(int id) {
-        Task task = tasks.get(id);
-        findTaskById(id);
+        Task task = findTaskById(id);
         task.setCompleted(true);
     }
 
