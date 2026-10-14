@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 public class TaskManager {
     private final Map<Integer, Task> tasks = new HashMap<>();
     private final Set<String> category = new HashSet<>();
@@ -32,6 +33,7 @@ public class TaskManager {
         if (task == null) {
             throw new TaskNotFoundException("Задача с id=" + id + " не найдена");
         }
+        System.out.println(task);
         return task;
     }
 
@@ -41,25 +43,28 @@ public class TaskManager {
         task.setCompleted(true);
     }
 
-    public Map<Integer, Task> showAllTasks(Map<Integer, Task> tasks) {
-        return tasks;
+    public void showAllTasks() {
+        System.out.println(tasks);
     }
 
-    public Map<Integer, Task> showAllCompletedTasks(Map<Integer, Task> tasks) {
-        return tasks.entrySet().stream()
+    public void showAllCompletedTasks() {
+        System.out.println(tasks.entrySet().stream()
                 .filter(x -> x.getValue().isCompleted())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
-                ));
+                )));
 
     }
 
     public void addCategory(String title) {
+        if (title == null ||  title.isBlank()) {
+            throw new TaskNotFoundException("Поле titles не может быть пустым");
+        }
         category.add(title);
     }
 
-    public Set<String> showCategory(Set<String> titles) {
-        return category;
+    public void showCategory() {
+        System.out.println(Set.copyOf(category));
     }
 }
